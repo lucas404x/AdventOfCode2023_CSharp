@@ -4,7 +4,7 @@ internal class Day6 : Day
 {
     public override string FirstHalf()
     {
-        int numberOfWaysToBeatRace = 1;
+        int totalWaysToBeatRace = 1;
 
         string[] times = Input[0].Split(':')[1].Split(' ', StringSplitOptions.RemoveEmptyEntries);
         string[] distances = Input[1].Split(':')[1].Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -14,15 +14,19 @@ internal class Day6 : Day
             var raceTime = long.Parse(times[i]);
             var recordDist = long.Parse(distances[i]);
 
+            // Calculate 'c' and 'delta' for the quadratic formula.
+            // The 'c' cannot be the 'recordDist' only, we need to get the next value from the fn to retrieve the right Xs.
             double c = (recordDist + (recordDist / raceTime));
-            double delta = Math.Sqrt((-raceTime * -raceTime) - 4 * c);
+            double delta = Math.Sqrt((raceTime * raceTime) - 4 * c);
 
+            // Calculate the number of ways to beat the race.
             int n1 = (int)Math.Round((-raceTime + delta) / 2);
             int n2 = (int)Math.Round((-raceTime - delta) / 2);
 
-            numberOfWaysToBeatRace *= (n1 - n2) + 1;
+            // Update the total number of ways to beat the race.
+            totalWaysToBeatRace *= (n1 - n2) + 1;
         }
 
-        return numberOfWaysToBeatRace.ToString();
+        return totalWaysToBeatRace.ToString();
     }
 }
